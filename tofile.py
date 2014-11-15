@@ -28,7 +28,7 @@ config.read('config.cfg')
 
 # args = parser.parse_args()
 
-args = sys.stdin.readline()
+args = sys.stdin.read()
 
 with open('mailout.txt', mode='w', newline='') as f:
     print(args, file=f)
