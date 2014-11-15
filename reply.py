@@ -23,7 +23,7 @@ me = headers['to']
 
 msg = MIMEText('Teszt üzenet')
 
-msg['Subject'] = 'Test msg'
+msg['Subject'] = headers['subject']
 msg['From'] = me
 msg['To'] = 'teszt.fonorobert@gmail.com'
 
