@@ -9,16 +9,16 @@ config.read('config.cfg')
 
 #create a list of mailing lists from the config file
 
-lists = []
-for k, v in config['LISTS'].items():
+# lists = []
+# for k, v in config['LISTS'].items():
 
-    #strip whitespaces from email addresses
-    this_list = v.split(',')
-    new_list = []
-    for a in this_list:
-        new_list.append(a.strip())
-    #append current list to list of all lists (yo dawg!)
-    lists.append({k: new_list})
+#     #strip whitespaces from email addresses
+#     this_list = v.split(',')
+#     new_list = []
+#     for a in this_list:
+#         new_list.append(a.strip())
+#     #append current list to list of all lists (yo dawg!)
+#     lists.append({k: new_list})
 
 
 #Parse stdin
