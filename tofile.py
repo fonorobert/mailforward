@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import argparse
+#import argparse
+import sys
 from configparser import ConfigParser
 
 #Parse config
@@ -21,14 +22,16 @@ config.read('config.cfg')
 #     lists.append({k: new_list})
 
 
-#Parse stdin
-parser = argparse.ArgumentParser()
-parser.add_argument('mail')
+# #Parse stdin
+# parser = argparse.ArgumentParser()
+# parser.add_argument('mail')
 
-args = parser.parse_args()
+# args = parser.parse_args()
+
+args = sys.stdin.readline()
 
 with open('mailout.txt', mode='w', newline='') as f:
-    print(args.mail, file=f)
+    print(args, file=f)
 
 #Next up: Build function that decides whether to forward mail or not Build
 #function that splits mail up and resend it address by address
