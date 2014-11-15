@@ -29,3 +29,6 @@ args = parser.parse_args()
 
 with open('mailout.txt', mode='w', newline='') as f:
     print(args.mail, file=f)
+
+#Next up: Build function that decides whether to forward mail or not Build
+#function that splits mail up and resend it address by address
