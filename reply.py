@@ -25,7 +25,7 @@ msg = MIMEText('Teszt üzenet')
 
 msg['Subject'] = headers['subject']
 msg['From'] = me
-msg['To'] = 'teszt.fonorobert@gmail.com'
+msg['To'] = sender
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
