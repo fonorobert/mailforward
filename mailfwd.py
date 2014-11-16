@@ -17,16 +17,22 @@ import email
 
 email_in = sys.stdin.read()
 
-headers = Parser().parsestr(email_in)
+incoming = Parser().parsestr(email_in)
 
-sender = headers['from']
-me = headers['to']
+sender = incoming['from']
+me = incoming['to']
 
-body = headers['body']
+if incoming.is_multipart():
+    for payload in incoming.get_payload():
+        # if payload.is_multipart(): ...
+        body = payload.get_payload()
+else:
+    body = incoming.get_payload()
+
 
 msg = MIMEText(body)
 
-msg['Subject'] = headers['subject']
+msg['Subject'] = incoming['subject']
 msg['From'] = me
 msg['To'] = sender
 
