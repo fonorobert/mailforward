@@ -18,6 +18,7 @@ email_in = sys.stdin.read()
 #    print(args, file=f)
 
 headers = Parser().parsestr(email_in)
+
 sender = headers['from']
 me = headers['to']
 

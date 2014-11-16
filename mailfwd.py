@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import sys
 import smtplib
 from email.mime.text import MIMEText
@@ -8,11 +9,11 @@ import email
 #function to read address lists into list
 
 
-def readlist(file):
-    with open(file, mode="r") as f:
-        lines = f.readlines()
-    result = [i.strip() for i in lines]
-    return result
+# def readlist(file):
+#     with open(file, mode="r") as f:
+#         lines = f.readlines()
+#     result = [i.strip() for i in lines]
+#     return result
 
 email_in = sys.stdin.read()
 
@@ -21,7 +22,7 @@ headers = Parser().parsestr(email_in)
 sender = headers['from']
 me = headers['to']
 
-msg = headers['body']
+msg = MIMEText(headers['body'])
 
 msg['Subject'] = headers['subject']
 msg['From'] = me
