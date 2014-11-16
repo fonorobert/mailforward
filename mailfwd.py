@@ -22,7 +22,7 @@ headers = Parser().parsestr(email_in)
 sender = headers['from']
 me = headers['to']
 
-msg = MIMEText(headers['body'])
+msg = MIMEText('deőfjőwejf')
 
 msg['Subject'] = headers['subject']
 msg['From'] = me
