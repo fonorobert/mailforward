@@ -2,7 +2,7 @@
 
 import sys
 import smtplib
-from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from email.parser import Parser
 import email
 
@@ -30,7 +30,8 @@ else:
     body = incoming.get_payload()
 
 
-msg = MIMEText(body)
+msg = MIMEMultipart()
+msg.attach(body)
 
 msg['Subject'] = incoming['subject']
 msg['From'] = me
