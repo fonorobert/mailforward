@@ -16,7 +16,7 @@ def readlist(file):
 
 email_in = sys.stdin.read()
 
-headers = email.message_from_string(email_in)
+headers = Parser().parsestr(email_in)
 
 sender = headers['from']
 me = headers['to']
