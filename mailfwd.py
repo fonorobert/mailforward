@@ -1,8 +1,32 @@
-from configparser import ConfigParser
-import process
+#!/usr/bin/env python3
+import sys
+import smtplib
+from email.mime.text import MIMEText
+from email.parser import Parser
+import email
 
-#Parse config
-config = ConfigParser()
-config.read('config.cfg')
+#function to read address lists into list
 
-mail = process.Mail('', config)
+
+def readlist(file):
+    with open(file, mode="r") as f:
+        lines = f.readlines()
+    result = [i.strip() for i in lines]
+    return result
+
+email_in = sys.stdin.read()
+
+headers = email.message_from_string(email_in)
+
+sender = headers['from']
+me = headers['to']
+
+msg = headers['body']
+
+msg['Subject'] = headers['subject']
+msg['From'] = me
+msg['To'] = sender
+
+s = smtplib.SMTP('localhost')
+s.send_message(msg)
+s.quit()
