@@ -32,7 +32,7 @@ else:
     body = incoming.get_payload()
 
 
-if sender not in senders:
+if MIMEText(sender) not in senders:
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = me
