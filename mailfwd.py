@@ -14,6 +14,7 @@ config.read('/home/fonorobert/scripts/mailforward/config.cfg')
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
+noreply = []
 for addr in noreply_raw:
     noreply.append(addr.strip())
 
