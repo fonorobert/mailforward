@@ -70,7 +70,7 @@ else:
         msg['From'] = this_address
         msg['reply-to'] = sender
         msg['To'] = member
-        msg.attach(MIMEText(body.encode('utf-8'), 'html', 'UTF-8'))
+        msg.attach(MIMEText(body.encode('utf-8'), 'html', 'utf-8'))
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
