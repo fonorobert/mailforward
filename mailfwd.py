@@ -42,7 +42,7 @@ if sender_plain not in senders:
     msg['From'] = me
     msg['To'] = sender
     msg.attach(MIMEText(
-                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + str(senders) + str(sender_plain) + sender_str + sender_list ,'html'))
+                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str + " --- " + sender_list ,'html'))
 else:
     msg = MIMEMultipart()
     msg['Subject'] = incoming['subject']
