@@ -13,6 +13,10 @@ config = ConfigParser()
 config.read('/home/fonorobert/scripts/mailforward/config.cfg')
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
+noreply_raw = config['RULES']['noreply'].split(',')
+for addr in noreply_raw:
+    noreply.append(addr.strip())
+
 
 #function to read address lists into list
 
@@ -42,6 +46,10 @@ else:
 
 
 if sender_str not in senders:
+    
+    if sender_str in noreply:
+        exit(0)
+    
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
