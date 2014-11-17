@@ -31,14 +31,15 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload()
 
+sender_plain = sender.decode_header()
 
-if sender not in senders:
+if sender_plain not in senders:
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = me
     msg['To'] = sender
     msg.attach(MIMEText(
-                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + str(senders) + sender,
+                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + str(senders) + sender_plain,
                         'html'))
 else:
     msg = MIMEMultipart()
