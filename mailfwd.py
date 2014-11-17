@@ -28,7 +28,7 @@ def readlist(input_file):
     result = [i.strip() for i in lines]
     return result
 
-email_in = sys.stdin.read().encode('UTF-8')
+email_in = sys.stdin.read()
 
 incoming = Parser().parsestr(email_in)
 
