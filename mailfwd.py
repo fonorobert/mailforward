@@ -25,7 +25,7 @@ sender = incoming['from']
 sender_str = parseaddr(sender)[1]
 me = incoming['to']
 
-senders = readlist("senders.list")
+senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
 
 if incoming.is_multipart():
     for payload in incoming.get_payload():
@@ -46,7 +46,7 @@ if sender_str not in senders:
     s.quit()
 
 else:
-    list_members = readlist("madrich.list")
+    list_members = readlist("/home/fonorobert/scripts/mailforward/madrich.list")
 
     msg = MIMEMultipart()
     msg['Subject'] = incoming['subject']
