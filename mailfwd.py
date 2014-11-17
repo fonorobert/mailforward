@@ -32,7 +32,7 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload()
 
-sender_plain = decode_header(sender)
+sender_plain = decode_header(sender)[0][0]
 
 if sender_plain not in senders:
     msg = MIMEMultipart()
