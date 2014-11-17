@@ -5,8 +5,14 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.parser import Parser
-from email.header import decode_header
+from configparser import ConfigParser
 from email.utils import parseaddr
+
+#Parse config
+config = ConfigParser()
+config.read('config.cfg')
+list_file = config['FILES']['list']
+senders_file = config['FILES']['senders']
 
 #function to read address lists into list
 
@@ -23,9 +29,9 @@ incoming = Parser().parsestr(email_in)
 
 sender = incoming['from']
 sender_str = parseaddr(sender)[1]
-me = incoming['to']
+this_address = incoming['to']
 
-senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
+senders = readlist(senders_file)
 
 if incoming.is_multipart():
     for payload in incoming.get_payload():
@@ -38,7 +44,7 @@ else:
 if sender_str not in senders:
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
-    msg['From'] = me
+    msg['From'] = this_address
     msg['To'] = sender
     msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.",'html'))
     s = smtplib.SMTP('localhost')
@@ -46,15 +52,16 @@ if sender_str not in senders:
     s.quit()
 
 else:
-    list_members = readlist("/home/fonorobert/scripts/mailforward/madrich.list")
+    list_members = readlist(list_file)
 
     for member in list_members:
         msg = MIMEMultipart()
         msg['Subject'] = incoming['subject']
-        msg['From'] = me
+        msg['From'] = this_address
+        msg['reply-to'] = sender
         msg['To'] = member
         msg.attach(MIMEText(body, 'html'))
-        
+
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
         s.quit()
