@@ -3,8 +3,8 @@
 import sys
 import smtplib
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.parser import Parser
-import email
 
 #function to read address lists into list
 
@@ -31,11 +31,12 @@ else:
 
 
 msg = MIMEMultipart()
-msg.attach(body)
 
 msg['Subject'] = incoming['subject']
 msg['From'] = me
 msg['To'] = sender
+
+msg.attach(MIMEText(body, 'plain'))
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
