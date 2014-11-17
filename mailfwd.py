@@ -48,8 +48,9 @@ else:
 
 if sender_str not in senders:
     
-    if sender_str in noreply:
+#    if sender_str in noreply:
         #exit(0)
+
     
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
