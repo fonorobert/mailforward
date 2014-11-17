@@ -55,7 +55,7 @@ else:
     for member in list_members:
         msg['To'] = member
 
-        msg.attach(MIMEText(body, 'html'))
+#        msg.attach(MIMEText(body, 'html'))
         msg.attach(MIMEText(str(list_members), 'html'))
 
         s = smtplib.SMTP('localhost')
