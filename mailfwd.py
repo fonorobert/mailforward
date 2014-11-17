@@ -25,7 +25,7 @@ sender = incoming['from']
 sender_str = parseaddr(sender)[1]
 me = incoming['to']
 
-senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
+senders = readlist("senders.list")
 
 if incoming.is_multipart():
     for payload in incoming.get_payload():
@@ -40,16 +40,23 @@ if sender_str not in senders:
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = me
     msg['To'] = sender
-    msg.attach(MIMEText(
-                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str,'html'))
+    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.",'html'))
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+
 else:
+    list_members = readlist("madrich.list")
+
     msg = MIMEMultipart()
     msg['Subject'] = incoming['subject']
     msg['From'] = me
-    msg['To'] = sender
 
-    msg.attach(MIMEText(body, 'html'))
+    for member in list_members:
+        msg['To'] = member
 
-s = smtplib.SMTP('localhost')
-s.send_message(msg)
-s.quit()
+        msg.attach(MIMEText(body, 'html'))
+
+        s = smtplib.SMTP('localhost')
+        s.send_message(msg)
+        s.quit()
