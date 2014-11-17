@@ -48,11 +48,10 @@ if sender_str not in senders:
 else:
     list_members = readlist("/home/fonorobert/scripts/mailforward/madrich.list")
 
-    msg = MIMEMultipart()
-    msg['Subject'] = incoming['subject']
-    msg['From'] = me
-
     for member in list_members:
+        msg = MIMEMultipart()
+        msg['Subject'] = incoming['subject']
+        msg['From'] = me
         msg['To'] = member
 
 #        msg.attach(MIMEText(body, 'html'))
