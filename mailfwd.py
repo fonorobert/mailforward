@@ -6,6 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.parser import Parser
 from email.header import decode_header
+from email.utils import parseaddr
 
 #function to read address lists into list
 
@@ -21,7 +22,7 @@ email_in = sys.stdin.read()
 incoming = Parser().parsestr(email_in)
 
 sender = incoming['from']
-sender2 = incoming.get('from')
+sender_str = parseaddr(sender)[1]
 me = incoming['to']
 
 senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
@@ -33,17 +34,14 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload()
 
-sender_str = str(sender)
-sender_list = str(list(sender))
-sender_plain = decode_header(sender)
 
-if sender_plain not in senders:
+if sender_str not in senders:
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = me
     msg['To'] = sender
     msg.attach(MIMEText(
-                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str + " --- " + sender_list + sender2 ,'html'))
+                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str,'html'))
 else:
     msg = MIMEMultipart()
     msg['Subject'] = incoming['subject']
