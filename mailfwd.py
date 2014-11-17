@@ -43,7 +43,7 @@ if incoming.is_multipart():
         # if payload.is_multipart(): ...
         body = payload.get_payload()
 else:
-    body = incoming.get_payload()
+    body = incoming.get_payload(decode=True)
 
 
 if sender_str not in senders:
