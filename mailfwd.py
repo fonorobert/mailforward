@@ -53,10 +53,8 @@ else:
         msg['Subject'] = incoming['subject']
         msg['From'] = me
         msg['To'] = member
-
-#        msg.attach(MIMEText(body, 'html'))
-        msg.attach(MIMEText(str(list_members) + member, 'html'))
-
+        msg.attach(MIMEText(body, 'html'))
+        
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
         s.quit()
