@@ -9,8 +9,8 @@ from email.parser import Parser
 #function to read address lists into list
 
 
-def readlist(file):
-    with open(file, mode="r") as f:
+def readlist(input_file):
+    with open(input_file, mode="r") as f:
         lines = f.readlines()
     result = [i.strip() for i in lines]
     return result
@@ -22,7 +22,7 @@ incoming = Parser().parsestr(email_in)
 sender = incoming['from']
 me = incoming['to']
 
-senders = readlist("senders.list")
+senders = readlist("/home/fonorobert/scripts/mailforwrda/senders.list")
 
 if incoming.is_multipart():
     for payload in incoming.get_payload():
