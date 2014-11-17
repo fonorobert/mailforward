@@ -49,13 +49,13 @@ else:
 if sender_str not in senders:
     
     if sender_str in noreply:
-        exit(0)
+        #exit(0)
     
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
     msg['To'] = sender
-    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.",'html'))
+    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre." + str(noreply) + sender_str,'html'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
