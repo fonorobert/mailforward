@@ -10,7 +10,7 @@ from email.utils import parseaddr
 
 #Parse config
 config = ConfigParser()
-config.read('config.cfg')
+config.read('/home/fonorobert/scripts/mailforward/config.cfg')
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
 
