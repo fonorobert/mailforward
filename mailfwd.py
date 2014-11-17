@@ -22,7 +22,7 @@ incoming = Parser().parsestr(email_in)
 sender = incoming['from']
 me = incoming['to']
 
-senders = readlist("/home/fonorobert/scripts/mailforwrda/senders.list")
+senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
 
 if incoming.is_multipart():
     for payload in incoming.get_payload():
