@@ -21,6 +21,7 @@ email_in = sys.stdin.read()
 incoming = Parser().parsestr(email_in)
 
 sender = incoming['from']
+sender2 = incoming.get('from')
 me = incoming['to']
 
 senders = readlist("/home/fonorobert/scripts/mailforward/senders.list")
@@ -42,7 +43,7 @@ if sender_plain not in senders:
     msg['From'] = me
     msg['To'] = sender
     msg.attach(MIMEText(
-                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str + " --- " + sender_list ,'html'))
+                        "Önnek nincs jogosultsága üzenetet küldeni erre a címre." + sender_str + " --- " + sender_list + sender2 ,'html'))
 else:
     msg = MIMEMultipart()
     msg['Subject'] = incoming['subject']
