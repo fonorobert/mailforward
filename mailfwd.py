@@ -5,7 +5,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.parser import Parser
-from email.header import Header
+from email.header import decode_header
 
 #function to read address lists into list
 
@@ -32,7 +32,7 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload()
 
-sender_plain = Header(sender).decode_header()
+sender_plain = decode_header(sender)
 
 if sender_plain not in senders:
     msg = MIMEMultipart()
