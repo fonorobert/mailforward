@@ -28,7 +28,7 @@ def readlist(input_file):
     result = [i.strip() for i in lines]
     return result
 
-email_in = sys.stdin.read()
+email_in = sys.stdin.read().encode('UTF-8')
 
 incoming = Parser().parsestr(email_in)
 
@@ -70,7 +70,7 @@ else:
         msg['From'] = this_address
         msg['reply-to'] = sender
         msg['To'] = member
-        msg.attach(MIMEText(body.encode('utf-8'), 'html', 'utf-8'))
+        msg.attach(MIMEText(body.encode('utf-8'), 'html', 'UTF-8'))
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
