@@ -36,7 +36,7 @@ msg['Subject'] = incoming['subject']
 msg['From'] = me
 msg['To'] = sender
 
-msg.attach(MIMEText(body, 'plain'))
+msg.attach(MIMEText(body, 'html'))
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
