@@ -20,10 +20,9 @@ def find_text(body_list):
             if type(payload) == str:
                     body = payload.get_payload(decode=True)
                     body = body.decode('utf-8')
-                    break
+                    return body
         else:
             find_text(payload)
-    return body
 
 
 incoming = Parser().parsestr(email_in)
