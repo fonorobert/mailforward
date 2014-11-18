@@ -48,7 +48,7 @@ if incoming.is_multipart():
         if body is "":
             body = "Erre  listára nem küldhet csatolt fájlokat."
     except NameError:
-        body = "Erre  listára nem küldhet csatolt fájlokat."
+        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type()
 
     # if len(body_list) is 1:
     #     body = body_list[0].get_payload(decode=True)
