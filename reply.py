@@ -38,7 +38,7 @@ if incoming.is_multipart():
     body_list = incoming.get_payload()
 
     for payload in body_list:
-        if payload.get_content_type is "text/plain":
+        if payload.get_content_type() is "text/plain":
             body = body_list[0].get_payload(decode=True)
             body = body.decode('utf-8')
         else:
