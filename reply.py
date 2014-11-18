@@ -4,7 +4,6 @@ import pwd
 import io
 import sys
 import smtplib
-import base64
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.parser import Parser
@@ -14,11 +13,11 @@ from email.utils import parseaddr
 #email_in = sys.stdin.read()
 input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 email_in = input_stream.read()
-email_in = base64.b64decode(email_in).decode('utf-8')
-
+#email_in = base64.b64decode(email_in).decode('utf-8')
+email_in = email_in.decode('base64')
 
 def get_username():
-    return pwd.getpwuid( os.getuid() )[ 0 ]
+    return pwd.getpwuid(os.getuid())[0]
 
 running_user = get_username()
 # with open('mailout.txt', 'w') as f:
