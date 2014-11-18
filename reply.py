@@ -13,6 +13,7 @@ from email.utils import parseaddr
 #email_in = sys.stdin.read()
 input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 email_in = input_stream.read()
+email_in = email_in.decode('utf-8')
 
 
 def get_username():
