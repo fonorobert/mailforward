@@ -8,6 +8,9 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
+#Set all encoding to utf-8
+sys.setdefaultencoding("utf8")
+
 #Parse config
 config = ConfigParser()
 config.read('/home/fonorobert/scripts/mailforward/config.cfg')
