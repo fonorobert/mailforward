@@ -42,7 +42,7 @@ if incoming.is_multipart():
             try:
                 body = body.decode('utf-8')
             except AttributeError:
-                body = "Erre a listára nem küldhet csatolt fájltself."
+                body = "Erre a listára nem küldhet csatolt fájlt."
 
     # body_list = incoming.get_payload()
     # body = find_text(body_list)

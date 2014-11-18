@@ -15,6 +15,8 @@ config.read('/scripts/mailforward/config.cfg')
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
+bounce_text = config['MESSAGES']['bounce']
+attachment_text = config['MESSAGES']['attachment']
 noreply = []
 for addr in noreply_raw:
     noreply.append(addr.strip())
@@ -42,12 +44,29 @@ senders = readlist(senders_file)
 if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
-        body = payload.get_payload(decode=True)
-        body = body.decode('utf-8')
+        if payload.get_content_type() == "text/plain":
+            body = payload.get_payload(decode=True)
+            try:
+                body = body.decode('utf-8')
+            except AttributeError:
+                body = attachment_text
 
 else:
     body = incoming.get_payload(decode=True)
     body = body.decode('utf-8')
+
+try:
+    type_body = type(body)
+except NameError:
+    msg = MIMEMultipart()
+    msg['Subject'] = "Re: " + incoming['subject']
+    msg['From'] = this_address
+    msg['To'] = sender
+    msg.attach(MIMEText(attachment_text, _charset='UTF-8'))
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+    exit(0)
 
 
 if sender_str not in senders:
@@ -59,7 +78,7 @@ if sender_str not in senders:
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
     msg['To'] = sender
-    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.", _charset='UTF-8'))
+    msg.attach(MIMEText(bounce_text, _charset='UTF-8'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
