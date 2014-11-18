@@ -32,7 +32,6 @@ def readlist(input_file):
 email_in = sys.stdin.read()
 
 incoming = Parser().parsestr(email_in)
-type_all = str(type(incoming))
 
 sender = incoming['from']
 sender_str = parseaddr(sender)[1]
@@ -47,7 +46,8 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload(decode=True)
 
-type_body = str(type(body))
+type_body = type(body).__name__ + " " + type(body).__class__.__name__
+type_all = type(incoming).__name__ + " " + type(incoming).__class__.__name__
 if sender_str not in senders:
     
 #    if sender_str in noreply:
