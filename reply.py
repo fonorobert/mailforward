@@ -27,12 +27,12 @@ type_body = type(body).__name__ + " " + type(body).__class__.__name__
 type_all = type(incoming).__name__ + " " + type(incoming).__class__.__name__
 
 
- msg = MIMEMultipart()
-        msg['Subject'] = incoming['subject']
-        msg['From'] = this_address
-        msg['To'] = sender
-        msg.attach(MIMEText(body, 'html', _charset='UTF-8'))
+msg = MIMEMultipart()
+msg['Subject'] = incoming['subject']
+msg['From'] = this_address
+msg['To'] = sender
+msg.attach(MIMEText(body, 'html', _charset='UTF-8'))
 
-        s = smtplib.SMTP('localhost')
-        s.send_message(msg)
-        s.quit()
+s = smtplib.SMTP('localhost')
+s.send_message(msg)
+s.quit()
