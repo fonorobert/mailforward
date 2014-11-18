@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import io
 import sys
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -8,7 +8,8 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
-email_in = sys.stdin.read()
+#email_in = sys.stdin.read()
+email_in = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 
 incoming = Parser().parsestr(email_in)
 
@@ -31,7 +32,7 @@ msg = MIMEMultipart()
 msg['Subject'] = incoming['subject']
 msg['From'] = this_address
 msg['To'] = sender
-msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + str(sys.getdefaultencoding()), 'html', _charset='UTF-8'))
+msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all, 'html', _charset='UTF-8'))
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
