@@ -31,11 +31,12 @@ def readlist(input_file):
     result = [i.strip() for i in lines]
     return result
 
-def bounce(bouncetext):
+
+def bounce(bouncetext, incoming):
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
-    msg['From'] = this_address
-    msg['To'] = sender
+    msg['From'] = incoming['to']
+    msg['To'] = incoming['from']
     msg.attach(MIMEText(bouncetext, _charset='UTF-8'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
@@ -71,8 +72,8 @@ if sender_str not in senders:
 
     if sender_str in noreply:
         exit(0)
-
-    bounce(bounce_text)
+    else:
+        bounce(bounce_text, incoming)
 
 else:
     list_members = readlist(list_file)
@@ -80,7 +81,7 @@ else:
     try:
         type_body = type(body)
     except NameError:
-        bounce(attachment_text)
+        bounce(attachment_text, incoming)
 
     for member in list_members:
         msg = MIMEMultipart()
