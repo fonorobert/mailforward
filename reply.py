@@ -51,7 +51,7 @@ type_in = type(email_in).__name__
 msg = MIMEMultipart()
 msg['Subject'] = incoming['subject']
 msg['From'] = this_address
-msg['To'] = sender
+msg['To'] = "teszt.fonorobert@gmail.com"
 msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + running_user + " " + type_in, 'html', _charset='UTF-8'))
 
 #msg.set_charset('utf-8')
