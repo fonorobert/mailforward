@@ -31,7 +31,7 @@ def readlist(input_file):
 
 email_in = sys.stdin.read()
 
-incoming = Parser().parse(email_in)
+incoming = Parser().parsestr(email_in)
 type_all = type(incoming)
 
 sender = incoming['from']
