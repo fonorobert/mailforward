@@ -29,8 +29,13 @@ def find_text(body_list):
     body = ""
     types = ""
     for payload in body_list:
-        types = types + " " + payload.get_content_type()
-        if len(payload) == 1 and payload.get_content_type() == "text/plain":
+        try:
+            types = types + " " + payload.get_content_type()
+            if len(payload) == 1 and payload.get_content_type() == "text/plain":
+                body = payload.get_payload(decode=True)
+                body = body.decode('utf-8')
+                break
+        except AttributeError:
             body = payload.get_payload(decode=True)
             body = body.decode('utf-8')
             break
