@@ -36,8 +36,9 @@ this_address = incoming['to']
 
 if incoming.is_multipart():
     body_list = incoming.get_payload()
-
+    types = ""
     for payload in body_list:
+        types = types + " " + payload.get_content_type()
         if payload.get_content_type() == "text/plain":
             body = payload.get_payload(decode=True)
             body = body.decode('utf-8')
@@ -49,7 +50,7 @@ if incoming.is_multipart():
         if body is "":
             body = "Erre  listára nem küldhet csatolt fájlokat."
     except NameError:
-        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(body_list[0].keys()) + str(body_list[1].keys())
+        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(body_list[0].keys()) + str(body_list[1].keys()) + "/n" + types
 
     # if len(body_list) is 1:
     #     body = body_list[0].get_payload(decode=True)
