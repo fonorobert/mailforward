@@ -16,10 +16,11 @@ email_in = sys.stdin.read()
 
 def find_text(body_list):
     for payload in body_list:
-        if len(payload) == 1 and payload.get_content_type() == "text/plain":
-                body = payload.get_payload(decode=True)
-                body = body.decode('utf-8')
-                break
+        if len(payload) == 1:
+            if type(payload) == str:
+                    body = payload.get_payload(decode=True)
+                    body = body.decode('utf-8')
+                    break
         else:
             find_text(payload)
     return body
