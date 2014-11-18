@@ -42,7 +42,7 @@ if incoming.is_multipart():
             try:
                 body = body.decode('utf-8')
             except AttributeError:
-                body = "Erre a listára nem küldhet csatolt fájlt."
+                body = "Erre a listára nem küldhet csatolt fájltself."
 
     # body_list = incoming.get_payload()
     # body = find_text(body_list)
@@ -64,9 +64,10 @@ else:
     body = incoming.get_payload(decode=True)
     body = body.decode('utf-8')
 
-type_body = type(body).__name__ + " " + type(body).__class__.__name__
-type_all = str(incoming.get_charsets())
-type_in = type(email_in).__name__
+try:
+    type_body = type(body)
+except NameError:
+    body = "Erre  listára nem küldhet csatolt fájlokat."
 
 
 msg = MIMEMultipart()
