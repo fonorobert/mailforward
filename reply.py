@@ -38,6 +38,7 @@ if incoming.is_multipart():
     body = ""
     for payload in body_list:
         body = body + str(payload.keys())
+    body = body + body_list[1].get('Content-Disposition')
     #body = str(body.keys())
 
     # for payload in incoming.get_payload():
