@@ -56,7 +56,7 @@ senders = readlist(senders_file)
 if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
-        if payload.get_content_type() == "text/plain":
+        if payload.get_content_type() == "text/plain" or payload.get_content_type() == "text/html":
             body = payload.get_payload(decode=True)
             try:
                 body = body.decode('utf-8')
