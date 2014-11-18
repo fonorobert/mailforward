@@ -44,7 +44,10 @@ if incoming.is_multipart():
         else:
             continue
 
-    if body is "" or body is None:
+    try:
+        if body is "":
+            body = "Erre  listára nem küldhet csatolt fájlokat."
+    except NameError:
         body = "Erre  listára nem küldhet csatolt fájlokat."
 
     # if len(body_list) is 1:
