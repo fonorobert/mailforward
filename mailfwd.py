@@ -31,6 +31,17 @@ def readlist(input_file):
     result = [i.strip() for i in lines]
     return result
 
+def bounce(bouncetext):
+    msg = MIMEMultipart()
+    msg['Subject'] = "Re: " + incoming['subject']
+    msg['From'] = this_address
+    msg['To'] = sender
+    msg.attach(MIMEText(bouncetext, _charset='UTF-8'))
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+    exit(0)
+
 email_in = sys.stdin.read()
 
 incoming = Parser().parsestr(email_in)
@@ -55,36 +66,21 @@ else:
     body = incoming.get_payload(decode=True)
     body = body.decode('utf-8')
 
-try:
-    type_body = type(body)
-except NameError:
-    msg = MIMEMultipart()
-    msg['Subject'] = "Re: " + incoming['subject']
-    msg['From'] = this_address
-    msg['To'] = sender
-    msg.attach(MIMEText(attachment_text, _charset='UTF-8'))
-    s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
-    exit(0)
-
 
 if sender_str not in senders:
 
     if sender_str in noreply:
         exit(0)
 
-    msg = MIMEMultipart()
-    msg['Subject'] = "Re: " + incoming['subject']
-    msg['From'] = this_address
-    msg['To'] = sender
-    msg.attach(MIMEText(bounce_text, _charset='UTF-8'))
-    s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
+    bounce(bounce_text)
 
 else:
     list_members = readlist(list_file)
+
+    try:
+        type_body = type(body)
+    except NameError:
+        bounce(attachment_text)
 
     for member in list_members:
         msg = MIMEMultipart()
