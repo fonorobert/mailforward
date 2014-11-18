@@ -17,6 +17,7 @@ email_in = input_stream.read()
 #email_in = base64.b64decode(email_in).decode('utf-8')
 email_in = email_in.encode()
 email_in = codecs.decode(email_in, 'base64')
+email_in = email_in.encode('utf-8')
 
 def get_username():
     return pwd.getpwuid(os.getuid())[0]
