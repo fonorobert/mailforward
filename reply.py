@@ -37,21 +37,22 @@ this_address = incoming['to']
 if incoming.is_multipart():
     body_list = incoming.get_payload()
 
-    # for payload in body_list:
-    #     if payload.get('Content-Type') is not
+    for payload in body_list:
+        if payload.get_content_type is "text/plain":
+            body = body_list[0].get_payload(decode=True)
+            body = body.decode('utf-8')
+        else:
+            continue
 
-    if len(body_list) is 1:
-        body = body_list[0].get_payload(decode=True)
-        body = body.decode('utf-8')
-    else:
-        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
-    # body = ""
-    # for payload in body_list:
-    #     body = body + str(payload.keys())
+    if body is "" or body is None:
+        body = "Erre  listára nem küldhet csatolt fájlokat."
 
-    #body = body + body_list[1].get('Content-Disposition')
+    # if len(body_list) is 1:
+    #     body = body_list[0].get_payload(decode=True)
+    #     body = body.decode('utf-8')
+    # else:
+    #     body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
 
-    #body = str(body.keys())
 
     # for payload in incoming.get_payload():
     #     # if payload.is_multipart(): ...
@@ -61,9 +62,6 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload(decode=True)
     body = body.decode('utf-8')
-    # body = body.encode()
-    # body = codecs.decode(body, 'base64')
-    # body = body.decode('utf-8', 'replace')
 
 type_body = type(body).__name__ + " " + type(body).__class__.__name__
 type_all = str(incoming.get_charsets())
