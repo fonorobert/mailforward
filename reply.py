@@ -20,6 +20,7 @@ email_in = input_stream.read()
 # email_in = codecs.decode(email_in, 'base64')
 # email_in = email_in.decode('utf-8', 'replace')
 
+
 def get_username():
     return pwd.getpwuid(os.getuid())[0]
 
@@ -35,10 +36,18 @@ this_address = incoming['to']
 
 if incoming.is_multipart():
     body_list = incoming.get_payload()
-    body = ""
-    for payload in body_list:
-        body = body + str(payload.keys())
-    body = body + body_list[1].get('Content-Disposition')
+
+    if len(body_list) is 1:
+        body = body_list[0].get_payload(decode=True)
+        body = body.decode('utf-8')
+    else:
+        body = "Erre  listára nem küldhet csatolt fájlokat."
+    # body = ""
+    # for payload in body_list:
+    #     body = body + str(payload.keys())
+
+    #body = body + body_list[1].get('Content-Disposition')
+
     #body = str(body.keys())
 
     # for payload in incoming.get_payload():
