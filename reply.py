@@ -11,18 +11,7 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
-#email_in = sys.stdin.read()
-input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
-email_in = input_stream.read()
-#email_in = base64.b64decode(email_in).decode('utf-8')
-
-# email_in = email_in.encode()
-# email_in = codecs.decode(email_in, 'base64')
-# email_in = email_in.decode('utf-8', 'replace')
-
-
-def get_username():
-    return pwd.getpwuid(os.getuid())[0]
+email_in = sys.stdin.read()
 
 
 def find_text(body_list):
@@ -37,15 +26,12 @@ def find_text(body_list):
                 break
             else:
                 find_text(payload)
-        except AttributeError:
+        except:
             body = payload.get_payload(decode=True)
             body = body.decode('utf-8')
             break
     return body
 
-running_user = get_username()
-# with open('mailout.txt', 'w') as f:
-#     f.write(email_in)
 
 incoming = Parser().parsestr(email_in)
 
