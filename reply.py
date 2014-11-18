@@ -40,11 +40,12 @@ type_all = str(incoming.get_charsets())
 type_in = type(email_in).__name__
 
 
-msg = MIMEMultipart()
+#msg = MIMEMultipart()
+msg = MIMEText(body, 'html', _charset='utf-8')
 msg['Subject'] = incoming['subject']
 msg['From'] = this_address
 msg['To'] = sender
-msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + running_user + " " + type_in, 'html', _charset='UTF-8'))
+#msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + running_user + " " + type_in, 'html', _charset='UTF-8'))
 
 #msg.set_charset('utf-8')
 s = smtplib.SMTP('localhost')
