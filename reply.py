@@ -31,7 +31,7 @@ msg = MIMEMultipart()
 msg['Subject'] = incoming['subject']
 msg['From'] = this_address
 msg['To'] = sender
-msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all, 'html', _charset='UTF-8'))
+msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + str(sys.getdefaultencoding(), 'html', _charset='UTF-8'))
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
