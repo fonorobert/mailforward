@@ -37,11 +37,14 @@ this_address = incoming['to']
 if incoming.is_multipart():
     body_list = incoming.get_payload()
 
+    # for payload in body_list:
+    #     if payload.get('Content-Type') is not
+
     if len(body_list) is 1:
         body = body_list[0].get_payload(decode=True)
         body = body.decode('utf-8')
     else:
-        body = "Erre  listára nem küldhet csatolt fájlokat." + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
+        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get('Content-Type') + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
     # body = ""
     # for payload in body_list:
     #     body = body + str(payload.keys())
