@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+import pwd
 import io
 import sys
 import smtplib
@@ -12,8 +14,13 @@ from email.utils import parseaddr
 input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 email_in = input_stream.read()
 
-with open('mailout.txt', 'w') as f:
-    f.write(email_in)
+
+def get_username():
+    return pwd.getpwuid( os.getuid() )[ 0 ]
+
+running_user = get_username()
+# with open('mailout.txt', 'w') as f:
+#     f.write(email_in)
 
 incoming = Parser().parsestr(email_in)
 
@@ -36,7 +43,7 @@ msg = MIMEMultipart()
 msg['Subject'] = incoming['subject']
 msg['From'] = this_address
 msg['To'] = sender
-msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all, 'html', _charset='UTF-8'))
+msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + running_user, 'html', _charset='UTF-8'))
 
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
