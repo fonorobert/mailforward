@@ -34,8 +34,12 @@ sender_str = parseaddr(sender)[1]
 this_address = incoming['to']
 
 if incoming.is_multipart():
-    body = incoming.get_payload()
-    body = str(body.keys())
+    body_list = incoming.get_payload()
+    body = ""
+    for payload in body_list:
+        body = body + str(payload.keys())
+    #body = str(body.keys())
+
     # for payload in incoming.get_payload():
     #     # if payload.is_multipart(): ...
     #     body = payload.get_payload(decode=True)
