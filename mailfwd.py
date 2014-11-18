@@ -30,7 +30,7 @@ def readlist(input_file):
 
 email_in = sys.stdin.read()
 
-incoming = Parser().parsestr(email_in)
+incoming = Parser().parsestr(email_in.encode('utf-8'))
 
 sender = incoming['from']
 sender_str = parseaddr(sender)[1]
