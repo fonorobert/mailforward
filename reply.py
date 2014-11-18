@@ -9,7 +9,8 @@ from configparser import ConfigParser
 from email.utils import parseaddr
 
 #email_in = sys.stdin.read()
-email_in = io.TextIOWrapper(sys.stdin.read(), encoding='utf-8')
+input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+email_in = input_stream.read()
 
 incoming = Parser().parsestr(email_in)
 
