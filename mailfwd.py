@@ -11,7 +11,7 @@ from email.utils import parseaddr
 
 #Parse config
 config = ConfigParser()
-config.read('/home/fonorobert/scripts/mailforward/config.cfg')
+config.read('/scripts/mailforward/config.cfg')
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
@@ -42,23 +42,24 @@ senders = readlist(senders_file)
 if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
-        body = payload.get_payload()
-else:
-    body = incoming.get_payload(decode=False)
+        body = payload.get_payload(decode=True)
+        body = body.decode('utf-8')
 
-type_body = type(body).__name__ + " " + type(body).__class__.__name__
-type_all = type(incoming).__name__ + " " + type(incoming).__class__.__name__
+else:
+    body = incoming.get_payload(decode=True)
+    body = body.decode('utf-8')
+
+
 if sender_str not in senders:
-    
+
 #    if sender_str in noreply:
         #exit(0)
 
-    
     msg = MIMEMultipart()
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
     msg['To'] = sender
-    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre." + type_all + " ::body:: " + type_body,'html', _charset='UTF-8'))
+    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.", _charset='UTF-8'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
@@ -72,7 +73,7 @@ else:
         msg['From'] = this_address
         msg['reply-to'] = sender
         msg['To'] = member
-        msg.attach(MIMEText(body.encode('utf-8'), 'html', _charset='UTF-8'))
+        msg.attach(MIMEText(body, 'html', _charset='UTF-8'))
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
