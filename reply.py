@@ -35,12 +35,12 @@ def find_text(body_list):
                 body = payload.get_payload(decode=True)
                 body = body.decode('utf-8')
                 break
+            else:
+                find_text(payload)
         except AttributeError:
             body = payload.get_payload(decode=True)
             body = body.decode('utf-8')
             break
-        else:
-            find_text(payload)
     return body
 
 running_user = get_username()
