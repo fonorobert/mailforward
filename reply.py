@@ -41,7 +41,7 @@ if incoming.is_multipart():
         body = body_list[0].get_payload(decode=True)
         body = body.decode('utf-8')
     else:
-        body = "Erre  listára nem küldhet csatolt fájlokat."
+        body = "Erre  listára nem küldhet csatolt fájlokat." + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
     # body = ""
     # for payload in body_list:
     #     body = body + str(payload.keys())
