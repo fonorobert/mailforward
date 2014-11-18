@@ -36,7 +36,7 @@ else:
     body = incoming.get_payload(decode=False)
 
 type_body = type(body).__name__ + " " + type(body).__class__.__name__
-type_all = type(incoming).__name__ + " " + type(incoming).__class__.__name__
+type_all = str(incoming.get_charsets())
 type_in = type(email_in).__name__
 
 
@@ -46,7 +46,7 @@ msg['From'] = this_address
 msg['To'] = sender
 msg.attach(MIMEText(body + "\n" + type_body + "\n" + type_all + running_user + " " + type_in, 'html', _charset='UTF-8'))
 
-msg.set_charset('utf-8')
+#msg.set_charset('utf-8')
 s = smtplib.SMTP('localhost')
 s.send_message(msg)
 s.quit()
