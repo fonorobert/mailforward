@@ -58,7 +58,7 @@ if sender_str not in senders:
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
     msg['To'] = sender
-    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre." + type_all + type_body,'html', _charset='UTF-8'))
+    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre." + type_all + " ::body:: " + type_body,'html', _charset='UTF-8'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
