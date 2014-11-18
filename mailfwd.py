@@ -8,8 +8,6 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
-#Set all encoding to utf-8
-sys.setdefaultencoding("utf8")
 
 #Parse config
 config = ConfigParser()
@@ -34,6 +32,7 @@ def readlist(input_file):
 email_in = sys.stdin.read()
 
 incoming = Parser().parse(email_in)
+type_all = type(incoming)
 
 sender = incoming['from']
 sender_str = parseaddr(sender)[1]
@@ -48,7 +47,7 @@ if incoming.is_multipart():
 else:
     body = incoming.get_payload(decode=True)
 
-
+type_body = type(body)
 if sender_str not in senders:
     
 #    if sender_str in noreply:
@@ -59,7 +58,7 @@ if sender_str not in senders:
     msg['Subject'] = "Re: " + incoming['subject']
     msg['From'] = this_address
     msg['To'] = sender
-    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre.",'html', _charset='UTF-8'))
+    msg.attach(MIMEText("Önnek nincs jogosultsága üzenetet küldeni erre a címre." + type_all + type_body,'html', _charset='UTF-8'))
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
