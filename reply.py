@@ -41,6 +41,7 @@ if incoming.is_multipart():
         if payload.get_content_type() == "text/plain":
             body = payload.get_payload(decode=True)
             body = body.decode('utf-8')
+            break
         else:
             continue
 
