@@ -24,6 +24,20 @@ email_in = input_stream.read()
 def get_username():
     return pwd.getpwuid(os.getuid())[0]
 
+
+def find_text(body_list):
+    body = ""
+    types = ""
+    for payload in body_list:
+        types = types + " " + payload.get_content_type()
+        if len(payload) == 1 and payload.get_content_type() == "text/plain":
+            body = payload.get_payload(decode=True)
+            body = body.decode('utf-8')
+            break
+        else:
+            find_text(payload)
+    return body
+
 running_user = get_username()
 # with open('mailout.txt', 'w') as f:
 #     f.write(email_in)
@@ -36,15 +50,7 @@ this_address = incoming['to']
 
 if incoming.is_multipart():
     body_list = incoming.get_payload()
-    types = ""
-    for payload in body_list:
-        types = types + " " + payload.get_content_type()
-        if payload.get_content_type() == "text/plain":
-            body = payload.get_payload(decode=True)
-            body = body.decode('utf-8')
-            break
-        else:
-            continue
+    body = find_text(body_list)
 
     try:
         if body is "":
