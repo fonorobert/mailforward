@@ -39,7 +39,10 @@ if incoming.is_multipart():
         # if payload.is_multipart(): ...
         if payload.get_content_type() == "text/plain":
             body = payload.get_payload(decode=True)
-            body = body.decode('utf-8')
+            try:
+                body = body.decode('utf-8')
+            except AttributeError:
+                body = "Erre a listára nem küldhet csatolt fájlt."
 
     # body_list = incoming.get_payload()
     # body = find_text(body_list)
@@ -56,6 +59,7 @@ if incoming.is_multipart():
     #     body = payload.get_payload(decode=True)
     #     #body = body.decode('utf-8')
     #     body = str(body.keys())
+
 else:
     body = incoming.get_payload(decode=True)
     body = body.decode('utf-8')
