@@ -16,12 +16,12 @@ sender = incoming['from']
 sender_str = parseaddr(sender)[1]
 this_address = incoming['to']
 
-# if incoming.is_multipart():
-#     for payload in incoming.get_payload():
-#         # if payload.is_multipart(): ...
-#         body = payload.get_payload()
-# else:
-body = incoming.get_payload(decode=False)
+if incoming.is_multipart():
+    for payload in incoming.get_payload():
+        # if payload.is_multipart(): ...
+        body = payload.get_payload()
+else:
+    body = incoming.get_payload(decode=False)
 
 type_body = type(body).__name__ + " " + type(body).__class__.__name__
 type_all = type(incoming).__name__ + " " + type(incoming).__class__.__name__
