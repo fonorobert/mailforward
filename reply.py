@@ -40,6 +40,7 @@ if incoming.is_multipart():
         body = body.decode('utf-8')
 else:
     body = incoming.get_payload(decode=True)
+    body = body.decode('utf-8')
     # body = body.encode()
     # body = codecs.decode(body, 'base64')
     # body = body.decode('utf-8', 'replace')
