@@ -18,9 +18,12 @@ def find_text(body_list):
     for payload in body_list:
         if len(payload) == 1:
             if type(payload) == str:
-                    body = payload.get_payload(decode=True)
-                    body = body.decode('utf-8')
-                    return body
+                body = payload
+                return body
+            else:
+                body = payload.get_payload(decode=True)
+                body = body.decode('utf-8')
+                return body
         else:
             find_text(payload)
 
