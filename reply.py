@@ -19,8 +19,8 @@ def get_username():
     return pwd.getpwuid( os.getuid() )[ 0 ]
 
 running_user = get_username()
-with open('mailout.txt', 'w') as f:
-    f.write(email_in)
+# with open('mailout.txt', 'w') as f:
+#     f.write(email_in)
 
 incoming = Parser().parsestr(email_in)
 
