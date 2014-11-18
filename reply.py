@@ -28,7 +28,6 @@ def find_text(body_list):
             find_text(payload)
 
 
-
 incoming = Parser().parsestr(email_in)
 
 sender = incoming['from']
@@ -38,8 +37,9 @@ this_address = incoming['to']
 if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
-        body = payload.get_payload(decode=True)
-        body = body.decode('utf-8')
+        if payload.get_content_type() == "text/plain":
+            body = payload.get_payload(decode=True)
+            body = body.decode('utf-8')
 
     # body_list = incoming.get_payload()
     # body = find_text(body_list)
