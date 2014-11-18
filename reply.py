@@ -37,7 +37,7 @@ if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
         body = payload.get_payload(decode=True)
-        body = body.encode('utf-8')
+        body = body.decode('utf-8')
 else:
     body = incoming.get_payload(decode=True)
     # body = body.encode()
