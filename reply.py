@@ -37,11 +37,12 @@ if incoming.is_multipart():
     for payload in incoming.get_payload():
         # if payload.is_multipart(): ...
         body = payload.get_payload(decode=True)
+        body = body.encode('utf-8')
 else:
     body = incoming.get_payload(decode=True)
-    body = body.encode()
-    body = codecs.decode(body, 'base64')
-    body = body.decode('utf-8', 'replace')
+    # body = body.encode()
+    # body = codecs.decode(body, 'base64')
+    # body = body.decode('utf-8', 'replace')
 
 type_body = type(body).__name__ + " " + type(body).__class__.__name__
 type_all = str(incoming.get_charsets())
