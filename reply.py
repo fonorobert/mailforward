@@ -15,9 +15,10 @@ from email.utils import parseaddr
 input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 email_in = input_stream.read()
 #email_in = base64.b64decode(email_in).decode('utf-8')
-email_in = email_in.encode()
-email_in = codecs.decode(email_in, 'base64')
-email_in = email_in.decode('utf-8', 'replace')
+
+# email_in = email_in.encode()
+# email_in = codecs.decode(email_in, 'base64')
+# email_in = email_in.decode('utf-8', 'replace')
 
 def get_username():
     return pwd.getpwuid(os.getuid())[0]
@@ -38,6 +39,9 @@ if incoming.is_multipart():
         body = payload.get_payload()
 else:
     body = incoming.get_payload(decode=False)
+    body = body.encode()
+    body = codecs.decode(body, 'base64')
+    body = body.decode('utf-8', 'replace')
 
 type_body = type(body).__name__ + " " + type(body).__class__.__name__
 type_all = str(incoming.get_charsets())
