@@ -28,6 +28,7 @@ def find_text(body_list):
             find_text(payload)
 
 
+
 incoming = Parser().parsestr(email_in)
 
 sender = incoming['from']
@@ -35,20 +36,19 @@ sender_str = parseaddr(sender)[1]
 this_address = incoming['to']
 
 if incoming.is_multipart():
-    body_list = incoming.get_payload()
-    body = find_text(body_list)
+    for payload in incoming.get_payload():
+        # if payload.is_multipart(): ...
+        body = payload.get_payload(decode=True)
+        body = body.decode('utf-8')
 
-    try:
-        if body is "":
-            body = "Erre  listára nem küldhet csatolt fájlokat."
-    except NameError:
-        body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(body_list[0].keys()) + str(body_list[1].keys()) + "/n" + types
+    # body_list = incoming.get_payload()
+    # body = find_text(body_list)
 
-    # if len(body_list) is 1:
-    #     body = body_list[0].get_payload(decode=True)
-    #     body = body.decode('utf-8')
-    # else:
-    #     body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(len(body_list)) + str(body_list[0].keys()) + str(body_list[1].keys())
+    # try:
+    #     if body is "":
+    #         body = "Erre  listára nem küldhet csatolt fájlokat."
+    # except NameError:
+    #     body = "Erre  listára nem küldhet csatolt fájlokat." + body_list[0].get_content_type() + str(body_list[0].keys()) + str(body_list[1].keys()) + "/n" + types
 
 
     # for payload in incoming.get_payload():
