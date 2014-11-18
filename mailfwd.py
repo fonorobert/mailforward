@@ -11,7 +11,7 @@ from email.utils import parseaddr
 
 #Parse config
 config = ConfigParser()
-config.read('/scripts/mailforward/config.cfg')
+config.read('/scripts/mailforward/config.cfg', encoding="utf-8")
 list_file = config['FILES']['list']
 senders_file = config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
