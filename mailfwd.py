@@ -62,7 +62,7 @@ try:
     list_file = basedir + list_user + ".list"
     list_members = readlist(list_file)
 except FileNotFoundError:
-    bounce(nolist_text)
+    bounce(nolist_text, incoming)
 
 #Try to read senders list, fallback to globals if not found
 try:
