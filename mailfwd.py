@@ -60,13 +60,13 @@ for addr in noreply_raw:
 
 try:
     list_file = basedir + list_user + ".list"
-except FileNotFoundError:
+except:
     bounce(nolist_text)
 
 #Try to read senders list, fallback to globals if not found
 try:
     senders_file = basedir + list_user + "_senders.list"
-except FileNotFoundError:
+except:
     senders_file = basedir + config['FILES']['globalsenders']
 
 
