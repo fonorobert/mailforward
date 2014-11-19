@@ -73,7 +73,6 @@ except FileNotFoundError:
     senders = readlist(senders_file)
 
 
-
 if sender_str not in senders:
 
     if sender_str in noreply:
