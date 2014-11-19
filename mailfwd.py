@@ -87,9 +87,9 @@ else:
     for member in list_members:
         msg = MIMEMultipart()
         msg.set_payload(incoming)
-        msg['From'] = this_address
-        msg['reply-to'] = sender
-        msg['To'] = member
+        msg.replace_header('from', this_address)
+        msg.add_header('reply-to', sender)
+        msg.replace_header('to', member)
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
