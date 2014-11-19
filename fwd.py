@@ -7,7 +7,6 @@ from email.mime.text import MIMEText
 from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
-from email.message import Message
 
 
 #Parse config
@@ -54,19 +53,19 @@ this_address = incoming['to']
 
 senders = readlist(senders_file)
 
-# if incoming.is_multipart():
-#     for payload in incoming.get_payload():
-#         # if payload.is_multipart(): ...
-#         if payload.get_content_type() == "text/plain" or payload.get_content_type() == "text/html":
-#             body = payload.get_payload(decode=True)
-#             try:
-#                 body = body.decode('utf-8')
-#             except AttributeError:
-#                 body = attachment_text
+if incoming.is_multipart():
+    for payload in incoming.get_payload():
+        # if payload.is_multipart(): ...
+        if payload.get_content_type() == "text/plain" or payload.get_content_type() == "text/html":
+            body = payload.get_payload(decode=True)
+            try:
+                body = body.decode('utf-8')
+            except AttributeError:
+                body = attachment_text
 
-# else:
-#     body = incoming.get_payload(decode=True)
-#     body = body.decode('utf-8')
+else:
+    body = incoming.get_payload(decode=True)
+    body = body.decode('utf-8')
 
 
 if sender_str not in senders:
@@ -79,19 +78,19 @@ if sender_str not in senders:
 else:
     list_members = readlist(list_file)
 
-    # try:
-    #     type_body = type(body)
-    # except NameError:
-    #     bounce(attachment_text, incoming)
+    try:
+        type_body = type(body)
+    except NameError:
+        bounce(attachment_text, incoming)
 
     for member in list_members:
-        msg = Message()
-        msg.set_payload(incoming)
+        msg = MIMEMultipart()
+        msg['Subject'] = incoming['subject']
         msg['From'] = this_address
         msg['reply-to'] = sender
         msg['To'] = member
+        msg.attach(MIMEText(body, 'html', _charset='UTF-8'))
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
         s.quit()
-
