@@ -8,16 +8,35 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
+#Parse email
+
+email_in = sys.stdin.read()
+
+incoming = Parser().parsestr(email_in)
+
+sender = incoming['from']
+
+sender_str = parseaddr(sender)[1]
+
+to_list = parseaddr(incoming['to'])[1]
+
+list_user = to_list.split('@')[0]
+
+this_address = incoming['to']
+
 #Parse config
 basedir = '/scripts/mailforward/'
 
 config = ConfigParser()
 config.read(basedir + 'config.cfg', encoding="utf-8")
-list_file = basedir + config['FILES']['list']
+
+list_file = basedir + to_list + ".list"
+
 senders_file = basedir + config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
 bounce_text = config['MESSAGES']['bounce']
 attachment_text = config['MESSAGES']['attachment']
+nolist_text = config['MESSAGES']['nolist']
 noreply = []
 for addr in noreply_raw:
     noreply.append(addr.strip())
@@ -44,13 +63,6 @@ def bounce(bouncetext, incoming):
     s.quit()
     exit(0)
 
-email_in = sys.stdin.read()
-
-incoming = Parser().parsestr(email_in)
-
-sender = incoming['from']
-sender_str = parseaddr(sender)[1]
-this_address = incoming['to']
 
 senders = readlist(senders_file)
 
