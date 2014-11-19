@@ -85,8 +85,8 @@ else:
     #     bounce(attachment_text, incoming)
 
     for member in list_members:
-        msg = Message()
-        msg.set_payload(incoming, charset='base64')
+        msg = MIMEMultipart()
+        msg.set_payload(incoming)
         msg['From'] = this_address
         msg['reply-to'] = sender
         msg['To'] = member
