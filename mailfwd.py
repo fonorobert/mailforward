@@ -9,10 +9,12 @@ from configparser import ConfigParser
 from email.utils import parseaddr
 
 #Parse config
+basedir = '/scripts/mailforward'
+
 config = ConfigParser()
-config.read('/scripts/mailforward/config.cfg', encoding="utf-8")
-list_file = config['FILES']['list']
-senders_file = config['FILES']['senders']
+config.read(basedir + 'config.cfg', encoding="utf-8")
+list_file = basedir + config['FILES']['list']
+senders_file = basedir + config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
 bounce_text = config['MESSAGES']['bounce']
 attachment_text = config['MESSAGES']['attachment']
