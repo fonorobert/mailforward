@@ -87,7 +87,7 @@ else:
     for member in list_members:
         msg = Message()
         msg.set_payload(incoming)
-        msg.replace_header('From', this_address)
+        msg.replace_header("From", this_address)
         msg['Reply-to'] = sender
         msg.replace_header('To', member)
 
