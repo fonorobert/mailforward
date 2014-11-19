@@ -8,41 +8,7 @@ from email.parser import Parser
 from configparser import ConfigParser
 from email.utils import parseaddr
 
-#Parse email
-
-email_in = sys.stdin.read()
-
-incoming = Parser().parsestr(email_in)
-
-sender = incoming['from']
-
-sender_str = parseaddr(sender)[1]
-
-to_list = parseaddr(incoming['to'])[1]
-
-list_user = to_list.split('@')[0]
-
-this_address = incoming['to']
-
-#Parse config
-basedir = '/scripts/mailforward/'
-
-config = ConfigParser()
-config.read(basedir + 'config.cfg', encoding="utf-8")
-
-list_file = basedir + list_user + ".list"
-
-senders_file = basedir + config['FILES']['senders']
-noreply_raw = config['RULES']['noreply'].split(',')
-bounce_text = config['MESSAGES']['bounce']
-attachment_text = config['MESSAGES']['attachment']
-nolist_text = config['MESSAGES']['nolist']
-noreply = []
-for addr in noreply_raw:
-    noreply.append(addr.strip())
-
-
-#function to read address lists into list
+#function definitions
 
 
 def readlist(input_file):
@@ -64,8 +30,51 @@ def bounce(bouncetext, incoming):
     exit(0)
 
 
-senders = readlist(senders_file)
+#Parse email
 
+email_in = sys.stdin.read()
+
+incoming = Parser().parsestr(email_in)
+
+sender = incoming['from']
+sender_str = parseaddr(sender)[1]
+to_list = parseaddr(incoming['to'])[1]
+list_user = to_list.split('@')[0]
+this_address = incoming['to']
+
+#Parse config
+basedir = '/scripts/mailforward/'
+
+config = ConfigParser()
+config.read(basedir + 'config.cfg', encoding="utf-8")
+
+senders_file = basedir + config['FILES']['senders']
+noreply_raw = config['RULES']['noreply'].split(',')
+bounce_text = config['MESSAGES']['bounce']
+attachment_text = config['MESSAGES']['attachment']
+nolist_text = config['MESSAGES']['nolist']
+noreply = []
+for addr in noreply_raw:
+    noreply.append(addr.strip())
+
+#Try to read list addresses based on original recipient, bounce if no list found
+
+try:
+    list_file = basedir + list_user + ".list"
+except FileNotFoundError:
+    bounce(nolist_text)
+
+#Try to read senders list, fallback to globals if not found
+try:
+    senders_file = basedir + list_user + "_senders.list"
+except FileNotFoundError:
+    senders_file = basedir + config['FILES']['globalsenders']
+
+
+#Read senders and recipients into lists
+
+senders = readlist(senders_file)
+list_members = readlist(list_file)
 
 if sender_str not in senders:
 
@@ -75,7 +84,6 @@ if sender_str not in senders:
         bounce(bounce_text, incoming)
 
 else:
-    list_members = readlist(list_file)
 
     for member in list_members:
         msg = MIMEMultipart()
