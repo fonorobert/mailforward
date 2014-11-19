@@ -9,7 +9,7 @@ from configparser import ConfigParser
 from email.utils import parseaddr
 
 #Parse config
-basedir = '/scripts/mailforward'
+basedir = '/scripts/mailforward/'
 
 config = ConfigParser()
 config.read(basedir + 'config.cfg', encoding="utf-8")
