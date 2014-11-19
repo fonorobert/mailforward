@@ -30,7 +30,7 @@ basedir = '/scripts/mailforward/'
 config = ConfigParser()
 config.read(basedir + 'config.cfg', encoding="utf-8")
 
-list_file = basedir + to_list + ".list"
+list_file = basedir + list_user + ".list"
 
 senders_file = basedir + config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
