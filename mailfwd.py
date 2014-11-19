@@ -60,20 +60,19 @@ for addr in noreply_raw:
 
 try:
     list_file = basedir + list_user + ".list"
-except:
+    list_members = readlist(list_file)
+except FileNotFoundError:
     bounce(nolist_text)
 
 #Try to read senders list, fallback to globals if not found
 try:
     senders_file = basedir + list_user + "_senders.list"
-except:
+    senders = readlist(senders_file)
+except FileNotFoundError:
     senders_file = basedir + config['FILES']['globalsenders']
+    senders = readlist(senders_file)
 
 
-#Read senders and recipients into lists
-
-senders = readlist(senders_file)
-list_members = readlist(list_file)
 
 if sender_str not in senders:
 
