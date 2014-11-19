@@ -48,7 +48,6 @@ basedir = '/scripts/mailforward/'
 config = ConfigParser()
 config.read(basedir + 'config.cfg', encoding="utf-8")
 
-senders_file = basedir + config['FILES']['senders']
 noreply_raw = config['RULES']['noreply'].split(',')
 bounce_text = config['MESSAGES']['bounce']
 attachment_text = config['MESSAGES']['attachment']
