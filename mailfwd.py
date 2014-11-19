@@ -87,11 +87,10 @@ else:
     for member in list_members:
         msg = Message()
         msg.set_payload(incoming)
-        msg.replace_header("From", this_address)
-        msg['Reply-to'] = sender
-        msg.replace_header('To', member)
+        msg['From'] = this_address
+        msg['reply-to'] = sender
+        msg['To'] = member
 
         s = smtplib.SMTP('localhost')
         s.send_message(msg)
         s.quit()
-
